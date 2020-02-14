@@ -1,0 +1,10 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-23T17:31:19-06:00
+
+====== Compiler-Generator ======
+Created Thursday 23 January 2020
+
+Aka **Compiler Compiler**
+
+* A program that take the descriptioin of the main features of the source language and produces a component of the compiler

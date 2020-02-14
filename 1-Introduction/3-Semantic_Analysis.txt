@@ -1,0 +1,14 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-21T17:33:08-06:00
+
+====== 3-Semantic Analysis ======
+Created Tuesday 21 January 2020
+
+Recieves parse tree from [[2-Syntax Analysis]] (which contains the full information about the physical structure of the program)
+
+Semantic Analysis = analyses the meaning (function) of the source code and performs type checking / conversion
+* Figure out the meaning of the program
+* Makes code generation possible
+* Function
+

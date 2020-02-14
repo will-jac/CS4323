@@ -1,0 +1,115 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-30T16:36:43-06:00
+
+====== 4-Syntax Analysis ======
+Created Thursday 30 January 2020
+
+Two types: top down, bottom up
+
+====== Top Down Parsing ======
+
+Syntax analyzer does the majority syntax checking
+
+Example:
+L = { a^{n}b^{n} | n >= 0 }
+has the pattern aa...bb
+It is context-free but not regular, so it cannot be recognized by a DFA
+
+* The language of all nested parentheses (or begin-ends) is not regular and therefore not context free
+* Therefore, this pattern cannot be checked y the scanner and can be only done by the parser
+
+Similarly, some language features cannot be described by context-free rules, so they cannot be checked by the parser, but can be done by the next level of the compiler (semantic analyzer)
+
+Example:
+L = { wzw | w ∈ {a,b}*, ie the language feature that identifies must be declared before use is not context free but is context-sensitive }
+* checked by semantic analyzer
+
+== Parse Trees and Derivations ==
+Example:
+E -> E + E | E * E | <id>
+Derivations:
+E 	=> E + E => E * E + 
+	=> <id> * E + E
+	=> <id> * <id> + E
+	=> <id> * <id> + <id>
+	
+Begin = start symbol
+Intermediate = sentential forms
+Last form = sentence (only terminals)
+Sequence = derivation
+
+Can subscript the arrows to indicate that it is a left-most derivation
+=>_{lm}
+
+**Given a derivation, there exist exactly one tree**
+**Given a tree, there are many possible derivations that generate that tree**
+	**However, only one left-most derivation exists**
+
+
+Top down = left most
+Bottom up = right most
+
+== Ambiguity ==
+Def:
+A CFG is ambiguous if there are multple parse trees for some terminal string.
+
+CFG ambiguity is undecidable
+
+Strategy:
+For specific CFG, write everything you can as a right-linear grammar, then it's easy to analyze the few rules that can't be expressed this way.
+If it is right-linear, it's not ambiguous (??  - not sure about this)
+
+Generally, you can transform most things from an ambiguous set of rules to a non-ambiguous set of rules
+
+== Disambiguation ==
+
+EG: * > + (multiplication has a higher priority than multiplication)
+E -> E + T | T
+T -> T * F | F
+F -> <id>
+
+Now, it's non-ambiguous
+
+keywords: begin, if, int
+identifiers: seq of english chars
+constants: seq of digits (possibly including decimal)
+special symbols: : , =
+
+====== Deterministic Parsing ======
+There are two well-known "Universal Context-Free" deterministic parsing methods
+1. CYK (Cocke-Younger-Kasami) or Earley's algoritm
+	a. Can handle any CFL in O(n^3) time
+2. Top-Down (LL) and Bottom-Up (LR) parsing algorithms
+	a. can handle large subclasses of CFLs in O(n) time
+
+===== CYK =====
+Given a CFG G = (N, Σ, P, S) in CNF, and an input string w ∈ Σ* , decide if w ∈ L(G)
+
+Note: in CNF (Chomsky Normal Form), each rule either maps to a single terminal or two non-terminals, which means that the parse tree is always binary (!)
+
+Work bottom-up - every terminal symbol MUST come from a terminal symbol, so consider all possible ways to generate a symbol, eg:
+A -> c
+B -> c
+and combine them in all possible ways
+{{.\CYK.png?width=500}}
+{{.\CYK-example.png?width=500}}
+Time: O(n^{2 }* n * |N|^{2}) = O(n^{3})
+|N| = length of N rules?
+
+===== Top-Down Parsing =====
+Given a CFG G and a string W, construct a parse tree for w in G top-down, ie start with the start symbol of G and EXPAND nonterminals in order to generate w.
+
+EXPAND:
+Given any non-terminal A, choose one of it's productions to expand and follow it.
+How do we determine which one to expand?
+
+ {{.\top-down-parsing.png?width=500}}
+
+DPDA
+
+{{.\DPDA-ex.png?width=500}}
+
+NPDA
+
+{{.\NPDA-ex.png?width=500}}

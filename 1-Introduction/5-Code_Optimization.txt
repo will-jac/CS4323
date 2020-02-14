@@ -1,0 +1,28 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-23T16:59:58-06:00
+
+====== 5-Code Optimization ======
+Created Thursday 23 January 2020
+
+Transforms the intermediate code into more time / space effecient codes
+* Global optimization 
+	* Performs optimization considering it's effect over the entire source program
+	* Uses data / control flow analysis evaluate effect
+* Local optimization
+	* Considers only small portions of the source program to improve code
+
+Example: Peephole optimization
+* Use a window of fixed size to optimize (eg optimize inside this frame)
+* Tile windows throught program
+
+Example: Go from 
+R1 := C * 23
+R2 := B + R1
+A   := R2
+
+To:
+R1 := C * 23
+A   := B + R1
+
+Note that this is only useful if R2 is not elsewhere.

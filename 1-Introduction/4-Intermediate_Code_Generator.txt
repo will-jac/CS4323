@@ -1,0 +1,19 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-23T16:35:18-06:00
+
+====== 4-Intermediate Code Generator ======
+Created Thursday 23 January 2020
+
+* Produces a sequence of intermediate symbolic codes
+	* typically 3-address codes involving at most 3 operands
+	* idea: generte **short** sequences (lines)
+	* eg: A := B x C
+{{.\CS4323-compilers - 2.png?width=400}}
+There will be a fixed number of distinct **small** tries like this
+Generate code from the tree
+
+Eg:
+R1 := C * 23
+R2 := B + R1
+A   := R2

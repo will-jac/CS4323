@@ -1,0 +1,19 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-14T16:39:50-06:00
+
+====== Home ======
+Created Tuesday 14 January 2020
+
+Lexical Analysis = finite automata series
+	- To construct, construct finite automata
+
+Spend ~2.5 weeks to cover fundamental compiling concepts (ch 1, 2)
+Then, we'll do Ch 3 (very long in book, but we will be skipping DFAs because we've taken ToC)
+- Then, we'll know how to construct a lexical analyzer
+*** First programming assignment
+
+
+We'll be learning the theory at a very high level, and constructing a working compiler
+
+

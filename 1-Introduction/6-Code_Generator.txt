@@ -1,0 +1,30 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-01-23T17:10:53-06:00
+
+====== 6-Code Generator ======
+Created Thursday 23 January 2020
+
+Produces target code in the form of assembly code or relocatable machine code
+
+Example:
+R1 := C * 23
+A  := B + R1
+
+(A) Translation:
+LOAD C
+MULT 23
+COPY R1
+LOAD B
+ADD R1
+COPY A
+
+This can also be optimized:
+LOAD C
+MULT 23
+ADD B
+COPY A
+
+(presuming R1 isn't used later)
+
+With Symbol Table:
