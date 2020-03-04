@@ -83,7 +83,7 @@ There are two well-known "Universal Context-Free" deterministic parsing methods
 2. Top-Down (LL) and Bottom-Up (LR) parsing algorithms
 	a. can handle large subclasses of CFLs in O(n) time
 
-===== CYK =====
+===== CYK - O(n^3) =====
 Given a CFG G = (N, Σ, P, S) in CNF, and an input string w ∈ Σ* , decide if w ∈ L(G)
 
 Note: in CNF (Chomsky Normal Form), each rule either maps to a single terminal or two non-terminals, which means that the parse tree is always binary (!)
@@ -97,7 +97,7 @@ and combine them in all possible ways
 Time: O(n^{2 }* n * |N|^{2}) = O(n^{3})
 |N| = length of N rules?
 
-===== Top-Down Parsing =====
+===== Top-Down Parsing - O(n) =====
 Given a CFG G and a string W, construct a parse tree for w in G top-down, ie start with the start symbol of G and EXPAND nonterminals in order to generate w.
 
 EXPAND:
@@ -113,3 +113,75 @@ DPDA
 NPDA
 
 {{.\NPDA-ex.png?width=500}}
+
+
+==== Algorithm ====
+
+Given a CFG G = (N, Σ, P, S), we construct a PDA M such that L(M) = L(G)
+For any input w ∈ Σ*, M will simulate a leftmost derivation for w in G and accept w iff w ∈ L(G)
+
+Strategy:
+1. Push S into stack
+2. Can the stack content (S) turn into the unscanned portion of the input (w)?
+— if so, expand!
+{{.\equation.png?type=equation}}
+	Expand A, ie expect a rule A->α
+		Pop A and push α
+		If the top symbol is a terminal, then verify that it is equal to the input symbol and if so, then pop it and consume the input symbol
+		Repeat this if new stack top is a terminal
+	To verify:
+{{.\equation001.png?type=equation}}
+Parse tree has been completed (and M accepts) if there is nothing to be verified (ie, M reached the end of the input tape with empty stack)
+
+PDA Example:
+{{.\topdownpda-1.png?width=500}}
+Observe that:
+1) M simulates a LM derivation, to construct the parse tree top-down
+2) Action depends on the type of symbol at the top of the stack
+	- teminal = action is deterministic
+	- nonterminal = action __may__ be nondeterministic (if multiple productions)
+	- This is the only source of non-determinism
+	
+We remove this non-determinimism via examining a subclass of CFGs that can be parsed top-down in O(n) time:
+
+==== LL(k) Grammars ====
+
+A proper subclass of CFGs that permit a deterministic, no-backtracking, top down construction of a parse tree in O(n) time by using:
+1. Left-to-right scan of input symbols
+2. Leftmost derivation
+3. k lookahead symbols
+Ie, a CFG is LL(k) if the NPDA (that we obtained from the CFG) can become a DPDA if it's allowed to look ahead k symbols.
+
+This is how top-down parsing works.
+
+It's a proper subclass, so:
+LL = ∪ LL(k)
+LL(0) ⊆ LL(1) ⊆ LL(2) ⊆ .... ⊆ LL 
+
+Basically, by giving up universal parsing (by only accepting a subset of CFGs), we can improve the time complexity from O(n^3) to O(n)
+
+Then, perform some test to determine if the grammar is LL(0), LL(1) ... LL(k) for some **reasonable **k (eg < 20 or something) until the grammar is LL(k) for some small k, or we stop, change the grammar, and try again.
+
+== Definition ==
+Let k ≥ 0 and Β ∈ (N ∪ Σ)*
+Define:
+FIRST_{k }(Β) = {x ∈ Σ* | Β => xΒ' and |x| = k, or
+					 Β => x and x < k }
+FOLLOW_{k }(Β) = {x ∈ Σ* | S => αΒγ and x ∈ FIRST_{k}(γ) }
+{{.\ll-def.png?width=500}}
+
+
+== Example ==
+{{.\ll-ex1.png?width=500}}
+{{.\ll-ex2.png?width=500}}
+
+
+== Example 2 ==
+A more complicated example: 
+{{.\ll-ex3.png?width=500}}
+
+===== Bottom-Up Parsing =====
+
+==== LR(k) Grammars ====
+{{.\lr.png?width=500}}
+{{.\lr-1.png?width=500}}
